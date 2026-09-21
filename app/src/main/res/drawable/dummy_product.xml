@@ -1,0 +1,39 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+    <!-- Outer background circle -->
+    <path
+        android:fillColor="#E8F5E9"
+        android:pathData="M100,100m-95,0a95,95 0,1 1,190 0a95,95 0,1 1,-190 0" />
+    <!-- Green circular border ring -->
+    <path
+        android:fillColor="#2E7D32"
+        android:pathData="M100,10 A90,90 0 1 0 100,190 A90,90 0 1 0 100,10 Z M100,22 A78,78 0 1 1 100,178 A78,78 0 1 1 100,22 Z" />
+    <!-- Secondary green inner ring -->
+    <path
+        android:fillColor="#3AA34B"
+        android:pathData="M100,30 A70,70 0 1 0 100,170 A70,70 0 1 0 100,30 Z M100,36 A64,64 0 1 1 100,164 A64,64 0 1 1 100,36 Z" />
+    <!-- Center circular base -->
+    <path
+        android:fillColor="#2E7D32"
+        android:pathData="M100,100m-56,0a56,56 0,1 1,112 0a56,56 0,1 1,-112 0" />
+    <!-- Storefront / UMKM icon in center -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M70,88 L130,88 L125,126 C125,128 123,130 120,130 L80,130 C77,130 75,128 75,126 Z" />
+    <path
+        android:fillColor="#76BA43"
+        android:pathData="M66,88 L72,74 L128,74 L134,88 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M92,130 L92,106 L108,106 L108,130 Z" />
+    <!-- Sprout / Leaves growing above -->
+    <path
+        android:fillColor="#A5D6A7"
+        android:pathData="M100,72 C100,56 114,48 126,50 C126,62 116,74 100,72 Z" />
+    <path
+        android:fillColor="#C8E6C9"
+        android:pathData="M100,72 C100,58 88,52 76,54 C76,64 86,74 100,72 Z" />
+</vector>
