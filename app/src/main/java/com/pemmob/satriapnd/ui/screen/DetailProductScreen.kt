@@ -3,6 +3,7 @@ package com.pemmob.satriapnd.ui.screen
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -42,29 +43,37 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import coil.compose.AsyncImage
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.pemmob.satriapnd.R
-import com.pemmob.satriapnd.data.dummy.DummyData
 import com.pemmob.satriapnd.data.model.Product
 import com.pemmob.satriapnd.ui.theme.JualanTheme
+import com.pemmob.satriapnd.ui.viewmodel.ProductViewModel
+import com.pemmob.satriapnd.ui.viewmodel.ProductUiState
+import com.pemmob.satriapnd.util.JualanConstants.BASE_URL
 import kotlinx.coroutines.delay
+import androidx.compose.runtime.collectAsState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailProductScreen(productId: Int, navController: NavController? = null) {
+fun DetailProductScreen(
+    productId: Int,
+    viewModel: ProductViewModel,
+    navController: NavController? = null
+) {
     val context = LocalContext.current
-    var isLoading by remember { mutableStateOf(true) }
-    var product by remember { mutableStateOf<Product?>(null) }
+    val uiState by viewModel.uiState.collectAsState()
     var quantity by rememberSaveable { mutableStateOf(1) }
 
-    LaunchedEffect(key1 = productId) {
-        isLoading = true
-        delay(1000) // Simulasi loading server lambat
-        product = DummyData.products.find { it.id == productId }
-        isLoading = false
+    val isLoading = uiState is ProductUiState.Loading
+    val product = if (uiState is ProductUiState.Success) {
+        (uiState as ProductUiState.Success).products.find { it.id == productId }
+    } else {
+        null
     }
 
     StatelessDetailProduct(
@@ -123,24 +132,45 @@ fun StatelessDetailProduct(
                     .padding(paddingValues)
                     .verticalScroll(rememberScrollState())
             ) {
+                val imageModel: Any = if (product.img == "dummy_product") {
+                    R.drawable.icon_app_jualan
+                } else {
+                    "${BASE_URL}img/${product.img}"
+                }
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(24.dp)
-                        .height(240.dp)
-                        .clip(RoundedCornerShape(20.dp))
-                        .background(Color(0xFFE5E5E5)),
+                        .height(260.dp)
+                        .background(Color.White),
                     contentAlignment = Alignment.Center
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.Image,
+                    AsyncImage(
+                        model = imageModel,
                         contentDescription = product.name,
-                        tint = Color(0xFFB0B0B0),
-                        modifier = Modifier.fillMaxSize(0.5f)
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Fit
                     )
                 }
 
                 Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+                    Spacer(modifier = Modifier.height(16.dp))
+                    
+                    if (product.category != null) {
+                        Box(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(MaterialTheme.colorScheme.secondaryContainer)
+                                .padding(horizontal = 8.dp, vertical = 4.dp)
+                        ) {
+                            Text(
+                                text = product.category.name,
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onSecondaryContainer
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
+
                     Text(
                         text = product.name,
                         style = MaterialTheme.typography.headlineSmall,
@@ -156,7 +186,7 @@ fun StatelessDetailProduct(
 
                     Text("Deskripsi", fontWeight = FontWeight.Bold)
                     Text(product.description ?: "-")
-                    Text("Stok: ${product.stock}")
+                    Text("Stok Tersedia: ${product.stock}")
 
                     Spacer(modifier = Modifier.height(24.dp))
 
@@ -213,13 +243,13 @@ fun StatelessDetailProduct(
 @Composable
 fun PreviewDetailProduct() {
     JualanTheme {
-        StatelessDetailProduct(
-            product = DummyData.products[0],
-            isLoading = false,
-            quantity = 1,
-            onQuantityChange = {},
-            onBackClick = {},
-            onAddToCartClick = {}
-        )
+        // StatelessDetailProduct(
+        //     product = DummyData.products[0],
+        //     isLoading = false,
+        //     quantity = 1,
+        //     onQuantityChange = {},
+        //     onBackClick = {},
+        //     onAddToCartClick = {}
+        // )
     }
 }

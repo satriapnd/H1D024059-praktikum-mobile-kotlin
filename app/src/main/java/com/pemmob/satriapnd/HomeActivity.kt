@@ -13,6 +13,8 @@ import com.pemmob.satriapnd.ui.screen.DaftarProdukScreen
 import com.pemmob.satriapnd.ui.screen.DetailProductScreen
 import com.pemmob.satriapnd.ui.screen.HubungiKamiScreen
 import com.pemmob.satriapnd.ui.theme.JualanTheme
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.pemmob.satriapnd.ui.viewmodel.ProductViewModel
 
 class HomeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,12 +23,17 @@ class HomeActivity : ComponentActivity() {
         setContent {
             JualanTheme {
                 val navController = rememberNavController()
+                val productViewModel: ProductViewModel = viewModel()
+                
                 NavHost(
                     navController = navController,
                     startDestination = "daftar_produk"
                 ) {
                     composable(route = "daftar_produk") {
-                        DaftarProdukScreen(navController = navController)
+                        DaftarProdukScreen(
+                            navController = navController,
+                            viewModel = productViewModel
+                        )
                     }
 
                     composable(
@@ -38,7 +45,8 @@ class HomeActivity : ComponentActivity() {
                         val productId = backStackEntry.arguments?.getInt("productId") ?: 0
                         DetailProductScreen(
                             productId = productId,
-                            navController = navController
+                            navController = navController,
+                            viewModel = productViewModel
                         )
                     }
 
