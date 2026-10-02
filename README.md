@@ -21,6 +21,13 @@
 <img width="720" height="1600" alt="pertemuan4b" src="https://github.com/user-attachments/assets/0281d7ab-a126-4c1e-b88c-6b70d78f2266" />
 <img width="720" height="1600" alt="pertemuan4c" src="https://github.com/user-attachments/assets/40e8978d-fa1f-4d65-8cf7-ac89494d7c26" />
 
+## Pertemuan 5
+<img width="720" height="1600" alt="pertemuan5a" src="https://github.com/user-attachments/assets/48910f91-2130-4cb0-bd37-b327fffcec1c" />
+<img width="720" height="1600" alt="pertemuan5b" src="https://github.com/user-attachments/assets/28a449e0-8b80-4e83-842f-b65df3f4a54c" />
+
+
+
+
 
 
 
